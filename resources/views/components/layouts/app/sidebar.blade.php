@@ -7,27 +7,27 @@
         <flux:sidebar sticky stashable class="border-r border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
             <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 
-            <a href="{{ route('dashboard') }}" class="mr-5 flex items-center space-x-2" wire:navigate>
+            <a href="{{ route('admin-index') }}" class="mr-5 flex items-center space-x-2" wire:navigate>
                 <x-app-logo class="size-8" href="#"></x-app-logo>
             </a>
 
             <flux:navlist variant="outline">
                 <flux:navlist.group heading="Platform" class="grid">
-                    <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>Dashboard</flux:navlist.item>
+                    <flux:navlist.item icon="home" :href="route('admin-index')" :current="request()->routeIs('admin-index')" wire:navigate>Dashboard</flux:navlist.item>
+                    <flux:navlist.item icon="document-magnifying-glass" :href="route('pentest-list')" :current="request()->routeIs('pentest-list')" wire:navigate>Pentest</flux:navlist.item>
+                    <flux:navlist.item icon="shield-check" :href="route('insiden-list')" :current="request()->routeIs('insiden-list')" wire:navigate>Insiden</flux:navlist.item>
+                    <flux:navlist.item icon="sparkles" :href="route('aplikasi-list')" :current="request()->routeIs('aplikasi-list')" wire:navigate>Aset IT</flux:navlist.item>
+                    {{-- <flux:navlist.item icon="globe-alt" :href="route('website-list')" :current="request()->routeIs('website-list')" wire:navigate>Website</flux:navlist.item> --}}
+                    <flux:navlist.item icon="building-library" :href="route('skpd-list')" :current="request()->routeIs('skpd-list')" wire:navigate>OPD</flux:navlist.item>
+                    <flux:navlist.item icon="paper-clip" :href="route('pages-list')" :current="request()->routeIs('pages-list')" wire:navigate>Halaman</flux:navlist.item>
+                    <flux:navlist.item icon="newspaper" :href="route('berita-list')" :current="request()->routeIs('berita-list')" wire:navigate>Berita</flux:navlist.item>
+                    <flux:navlist.item icon="users" :href="route('team-kami-list')" :current="request()->routeIs('team-kami-list')" wire:navigate>Team</flux:navlist.item>
+                    <flux:navlist.item icon="queue-list" :href="route('logs-list')" :current="request()->routeIs('logs-list')" wire:navigate>Logs</flux:navlist.item>
+                    <flux:navlist.item icon="users" :href="route('profil')" :current="request()->routeIs('profil')" wire:navigate>Profil</flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
 
             <flux:spacer />
-
-            <flux:navlist variant="outline">
-                <flux:navlist.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
-                    Repository
-                </flux:navlist.item>
-
-                <flux:navlist.item icon="book-open-text" href="https://laravel.com/docs/starter-kits" target="_blank">
-                    Documentation
-                </flux:navlist.item>
-            </flux:navlist>
 
             <!-- Desktop User Menu -->
             <flux:dropdown position="bottom" align="start">
@@ -55,12 +55,6 @@
                                 </div>
                             </div>
                         </div>
-                    </flux:menu.radio.group>
-
-                    <flux:menu.separator />
-
-                    <flux:menu.radio.group>
-                        <flux:menu.item href="/settings/profile" icon="cog" wire:navigate>Settings</flux:menu.item>
                     </flux:menu.radio.group>
 
                     <flux:menu.separator />
