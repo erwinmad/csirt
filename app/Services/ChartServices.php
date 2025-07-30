@@ -19,7 +19,7 @@ class ChartServices
      */
     public function getCountApps(): int
     {
-        return DB::table('daftar_aplikasi')->count();
+        return DB::table('daftar_aplikasi')->where('jenis_id',2)->count();
     }
 
     /**
@@ -27,9 +27,15 @@ class ChartServices
      */
     public function getCountWebsite(): int
     {
-        return DB::table('daftar_skpd')
-            ->whereNotNull('website')
-            ->count();
+        return DB::table('daftar_aplikasi')->where('jenis_id',1)->count();
+    }
+
+    /**
+     * Get the count of aduan.
+     */
+    public function getCountAduan(): int
+    {
+        return DB::table('aduan_siber')->count();
     }
 
     /**
@@ -55,6 +61,18 @@ class ChartServices
             ->join('jenis_aplikasi', 'daftar_aplikasi.jenis_aplikasi_id', '=', 'jenis_aplikasi.id')
             ->select('jenis_aplikasi.jenis_aplikasi as kategori', DB::raw('count(*) as jumlah'))
             ->groupBy('jenis_aplikasi.jenis_aplikasi')
+            ->get();
+    }
+
+    /**
+     * Get applications grouped by type.
+     */
+    public function getJenisesAplikasi()
+    {
+        return DB::table('daftar_aplikasi')
+            ->join('jenis', 'daftar_aplikasi.jenis_id', '=', 'jenis.id')
+            ->select('jenis.nama_jenis as kategori', DB::raw('count(*) as jumlah'))
+            ->groupBy('jenis.nama_jenis')
             ->get();
     }
 
@@ -129,4 +147,62 @@ class ChartServices
             ->groupBy('platform_aplikasi.platform_aplikasi')
             ->get();
     }
+
+    /**
+     * Get recent aduan.
+     */
+
+
+    public function getJenisAduan()
+    {
+        return DB::table('aduan_siber')
+            ->join('jenis_aduan', 'aduan_siber.jenis_aduan_id', '=', 'jenis_aduan.id')
+            ->select('jenis_aduan.jenis_aduan as kategori', DB::raw('COUNT(*) as jumlah'))
+            ->groupBy('jenis_aduan.jenis_aduan')
+            ->get()
+            ->toArray();
+    }
+    
+    public function getAduanPerBulan()
+    {
+        return DB::table(function($query) {
+            $query->from('aduan_siber')
+                ->select(
+                    DB::raw("DATE_FORMAT(created_at, '%b') as kategori"),
+                    DB::raw("DATE_FORMAT(created_at, '%m') as month_num"),
+                    'created_at'
+                )
+                ->where('created_at', '>=', now()->subMonths(12));
+        })
+        ->select(
+            'kategori',
+            DB::raw('COUNT(*) as jumlah')
+        )
+        ->groupBy('kategori', 'month_num')
+        ->orderBy('month_num')
+        ->get()
+        ->toArray();
+    }
+    
+    public function getAplikasiDiadukan()
+    {
+        return DB::table('aduan_siber')
+            ->join('daftar_aplikasi', 'aduan_siber.aplikasi_id', '=', 'daftar_aplikasi.id')
+            ->select('daftar_aplikasi.nama_aplikasi as kategori', DB::raw('COUNT(*) as jumlah'))
+            ->groupBy('daftar_aplikasi.nama_aplikasi')
+            ->get()
+            ->toArray();
+    }
+
+    public function getKategoriAplikasiDiadukan()
+    {
+        return DB::table('aduan_siber')
+            ->join('daftar_aplikasi', 'aduan_siber.aplikasi_id', '=', 'daftar_aplikasi.id')
+            ->join('jenis', 'daftar_aplikasi.jenis_id', '=', 'jenis.id')
+            ->select('jenis.nama_jenis as kategori', DB::raw('COUNT(*) as jumlah'))
+            ->groupBy('jenis.nama_jenis')
+            ->get();
+    }
+
+
 }

@@ -29,4 +29,5 @@ class AduanSiber extends Model
     {
         return $this->belongsTo(DaftarAplikasiModel::class,'aplikasi_id');
     }
+
 }

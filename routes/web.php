@@ -3,6 +3,7 @@
 use App\Http\Controllers\HomeController;
 use App\Livewire\Form\BeritaForm;
 use App\Livewire\Form\FormAplikasi;
+use App\Livewire\Form\FormPentest;
 use App\Livewire\Form\FormSkpd;
 use App\Livewire\Form\PagesForm;
 use App\Livewire\Form\TeamForm;
@@ -51,6 +52,9 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 
     //pages/pentest
     Volt::route('/pentest', 'pages.pentest')->name('pentest-list');
+    Volt::route('/pentest/detail/{id}', 'pages.detail-pentest')->name('pentest-detail');
+     Volt::route('/pentest/tambah', FormPentest::class)->name('pentest-list.tambah'); 
+     Volt::route('/pentest/edit/{id}', FormPentest::class)->name('pentest-list.edit'); 
 
     //pages/team-kami
     Volt::route('/team-kami', 'pages.team-kami')->name('team-kami-list');

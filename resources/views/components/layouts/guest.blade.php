@@ -16,9 +16,6 @@
     <!--google fonts-->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!--title-->
-    <title>Hostlar - Hosting Provider with WHMCS Template</title>
-
     <!--build:css-->
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
     <!-- endbuild -->

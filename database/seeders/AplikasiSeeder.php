@@ -20,6 +20,9 @@ class AplikasiSeeder extends Seeder
         $this->seedJenisAplikasi();
         $this->seedJenis();
         $this->seedPembuatAplikasi();
+        $this->seedDaftarAplikasi();
+        
+        
     }
 
     private function seedJenisAplikasi()
@@ -314,5 +317,10 @@ class AplikasiSeeder extends Seeder
         ];
 
         DB::table('bahasa_aplikasi')->insert($bahasaAplikasi);
+    }
+
+    private function seedDaftarAplikasi()
+    {
+        
     }
 }
