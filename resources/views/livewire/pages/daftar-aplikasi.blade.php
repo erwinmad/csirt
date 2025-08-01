@@ -62,7 +62,7 @@ with(fn () => [
         ->when($this->skpd, fn ($query, $skpd) => $query->where('daftar_skpd.id', $skpd))
         ->when($this->tahun, fn ($query, $tahun) => $query->where('daftar_aplikasi.tahun_pembuatan', $tahun))
         ->orderBy('daftar_aplikasi.id', 'desc')
-        ->paginate(20),
+        ->paginate(10),
     'jenisAplikasi' => DB::table('jenis_aplikasi')->get(),
     'kategoriAplikasi' => DB::table('kategori_aplikasi')->get(),
     'platformAplikasi' => DB::table('platform_aplikasi')->get(),

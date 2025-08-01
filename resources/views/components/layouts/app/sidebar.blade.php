@@ -14,11 +14,11 @@
             <flux:navlist variant="outline">
                 <flux:navlist.group heading="Platform" class="grid">
                     <flux:navlist.item icon="home" :href="route('admin-index')" :current="request()->routeIs('admin-index')" wire:navigate>Dashboard</flux:navlist.item>
-                    <flux:navlist.item icon="document-magnifying-glass" :href="route('pentest-list')" :current="request()->routeIs('pentest-list')" wire:navigate>Pentest</flux:navlist.item>
+                    <flux:navlist.item icon="document-magnifying-glass" :href="route('pentest-list')" :current="request()->routeIs('pentest-list')" wire:navigate>Pentesting</flux:navlist.item>
                     <flux:navlist.item icon="shield-check" :href="route('insiden-list')" :current="request()->routeIs('insiden-list')" wire:navigate>Insiden</flux:navlist.item>
                     <flux:navlist.item icon="sparkles" :href="route('aplikasi-list')" :current="request()->routeIs('aplikasi-list')" wire:navigate>Aset IT</flux:navlist.item>
                     {{-- <flux:navlist.item icon="globe-alt" :href="route('website-list')" :current="request()->routeIs('website-list')" wire:navigate>Website</flux:navlist.item> --}}
-                    <flux:navlist.item icon="building-library" :href="route('skpd-list')" :current="request()->routeIs('skpd-list')" wire:navigate>OPD</flux:navlist.item>
+                    <flux:navlist.item icon="building-library" :href="route('skpd-list')" :current="request()->routeIs('skpd-list')" wire:navigate>Perangkat Daerah</flux:navlist.item>
                     <flux:navlist.item icon="paper-clip" :href="route('pages-list')" :current="request()->routeIs('pages-list')" wire:navigate>Halaman</flux:navlist.item>
                     <flux:navlist.item icon="newspaper" :href="route('berita-list')" :current="request()->routeIs('berita-list')" wire:navigate>Berita</flux:navlist.item>
                     <flux:navlist.item icon="users" :href="route('team-kami-list')" :current="request()->routeIs('team-kami-list')" wire:navigate>Team</flux:navlist.item>
@@ -121,6 +121,10 @@
 
         {{ $slot }}
 
+        
+
         @fluxScripts
+
+        
     </body>
 </html>

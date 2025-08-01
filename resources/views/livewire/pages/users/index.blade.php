@@ -28,10 +28,6 @@ class extends Component {
         
         
 
-
-
-
-
         <!--services section end-->
 
         <!--call to action section start-->

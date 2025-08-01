@@ -8,7 +8,7 @@ new class extends Component {
     public function with(): array
     {
         return [
-            'posts' => \App\Models\BeritaModel::where([['status_berita',1],['kategori_id',1]])->orderBy('tgl_berita', 'desc')->get(),
+            'posts' => \App\Models\BeritaModel::where([['status_berita',1]])->orderBy('tgl_berita', 'desc')->get(),
         ];
     }
 

@@ -76,29 +76,29 @@ return new class extends Migration
         });
 
         Schema::create('daftar_aplikasi', function (Blueprint $table) {
-        $table->id();
-        $table->foreignId('skpd_id')->constrained('daftar_skpd');
-        $table->string('nama_aplikasi');
-        $table->string('slug_aplikasi');
-        $table->string('url_aplikasi')->nullable();
-        $table->foreignId('jenis_id')->constrained('jenis');
-        $table->foreignId('jenis_aplikasi_id')->nullable()->constrained('jenis_aplikasi'); // Made nullable
-        $table->foreignId('kategori_aplikasi_id')->nullable()->constrained('kategori_aplikasi');
-        $table->foreignId('bahasa_aplikasi_id')->constrained('bahasa_aplikasi');
-        $table->foreignId('database_aplikasi_id')->constrained('database_aplikasi');
-        $table->foreignId('framework_aplikasi_id')->constrained('framework_aplikasi');
-        $table->foreignId('platform_aplikasi_id')->constrained('platform_aplikasi');
-        $table->foreignId('pembuat_aplikasi_id')->constrained('pembuat_aplikasi');
-        $table->string('uraian_aplikasi')->nullable();
-        $table->string('tahun_pembuatan')->nullable();
-        $table->string('fungsi_aplikasi')->nullable();
-        $table->string('output_aplikasi')->nullable();
-        $table->string('pengembang_aplikasi')->nullable();
-        $table->boolean('is_active')->default(false);
-        $table->boolean('is_featured')->default(false);
-        $table->boolean('is_integrated')->default(false);
-        $table->timestamps();
-    });
+            $table->id();
+            $table->foreignId('skpd_id')->constrained('daftar_skpd');
+            $table->string('nama_aplikasi');
+            $table->string('slug_aplikasi');
+            $table->string('url_aplikasi')->nullable();
+            $table->foreignId('jenis_id')->constrained('jenis');
+            $table->foreignId('jenis_aplikasi_id')->nullable()->constrained('jenis_aplikasi'); // Made nullable
+            $table->foreignId('kategori_aplikasi_id')->nullable()->constrained('kategori_aplikasi');
+            $table->foreignId('bahasa_aplikasi_id')->constrained('bahasa_aplikasi');
+            $table->foreignId('database_aplikasi_id')->constrained('database_aplikasi');
+            $table->foreignId('framework_aplikasi_id')->constrained('framework_aplikasi');
+            $table->foreignId('platform_aplikasi_id')->constrained('platform_aplikasi');
+            $table->foreignId('pembuat_aplikasi_id')->constrained('pembuat_aplikasi');
+            $table->string('uraian_aplikasi')->nullable();
+            $table->string('tahun_pembuatan')->nullable();
+            $table->string('fungsi_aplikasi')->nullable();
+            $table->string('output_aplikasi')->nullable();
+            $table->string('pengembang_aplikasi')->nullable();
+            $table->boolean('is_active')->default(false);
+            $table->boolean('is_featured')->default(false);
+            $table->boolean('is_integrated')->default(false);
+            $table->timestamps();
+        });
 
          Schema::create('status_api', function (Blueprint $table) {
             $table->id();

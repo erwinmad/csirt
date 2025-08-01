@@ -204,5 +204,10 @@ class ChartServices
             ->get();
     }
 
+    public function getWebsiteUptime()
+    {
+        return app(UptimeMonitorService::class)->getStatus();
+    }
+
 
 }

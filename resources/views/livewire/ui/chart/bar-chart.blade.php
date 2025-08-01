@@ -39,6 +39,7 @@ new class extends Component {
             bar: {
                 borderRadius: 10,
                 columnWidth: '50%',
+                horizontal: true,
             }
         },
         dataLabels: {

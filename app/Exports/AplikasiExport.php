@@ -21,9 +21,9 @@ class AplikasiExport implements FromCollection, WithHeadings, WithStyles
     public function collection()
     {
         // Query dasar dengan join tabel terkait
-        $query = DaftarAplikasiModel::join('jenis_aplikasi', 'daftar_aplikasi.jenis_aplikasi_id', '=', 'jenis_aplikasi.id')
+        $query = DaftarAplikasiModel::join('jenis', 'daftar_aplikasi.jenis_id', '=', 'jenis.id')
             ->join('kategori_aplikasi', 'daftar_aplikasi.kategori_aplikasi_id', '=', 'kategori_aplikasi.id')
-            ->join('daftar_skpd', 'daftar_aplikasi.skpd_id', '=', 'daftar_skpd.id')
+            ->join('jenis_aplikasi', 'daftar_aplikasi.jenis_aplikasi_id', '=', 'jenis_aplikasi.id')
             ->join('daftar_skpd', 'daftar_aplikasi.skpd_id', '=', 'daftar_skpd.id')
             ->join('platform_aplikasi', 'daftar_aplikasi.platform_aplikasi_id', '=', 'platform_aplikasi.id')
             ->join('database_aplikasi', 'daftar_aplikasi.database_aplikasi_id', '=', 'database_aplikasi.id')
@@ -34,7 +34,8 @@ class AplikasiExport implements FromCollection, WithHeadings, WithStyles
                 'daftar_aplikasi.nama_aplikasi',
                 'daftar_aplikasi.tahun_pembuatan',
                 'kategori_aplikasi.kategori_aplikasi as kategori',
-                'jenis_aplikasi.jenis_aplikasi as jenis',
+                'jenis_aplikasi.jenis_aplikasi as jenis_aplikasi',
+                'jenis.nama_jenis as jenis',
                 'daftar_aplikasi.url_aplikasi as url',
                 'daftar_skpd.alias_skpd as dinas',
                 'platform_aplikasi.platform_aplikasi as platform',
@@ -65,7 +66,11 @@ class AplikasiExport implements FromCollection, WithHeadings, WithStyles
         }
 
         if (!empty($this->filters['jenis'])) {
-            $query->where('jenis_aplikasi.id', $this->filters['jenis']);
+            $query->where('jenis.id', $this->filters['jenis']);
+        }
+
+        if (!empty($this->filters['jenis_aplikasi'])) {
+            $query->where('jenis_aplikasi.id', $this->filters['jenis_aplikasi']);
         }
 
         if (!empty($this->filters['kategori'])) {
@@ -94,8 +99,9 @@ class AplikasiExport implements FromCollection, WithHeadings, WithStyles
                 return [
                     'No' => $key + 1,
                     'Nama Aplikasi' => $item->nama_aplikasi,
-                    'Kategori' => $item->kategori,
                     'Jenis' => $item->jenis,
+                    'Jenis Aplikasi' => $item->jenis_aplikasi,
+                    'Kategori' => $item->kategori,
                     'URL' => $item->url,
                     'Dinas Pengampu' => $item->dinas,
                     'Platform' => $item->platform,
@@ -131,28 +137,28 @@ class AplikasiExport implements FromCollection, WithHeadings, WithStyles
             [
                 'No', 
                 'Nama Aplikasi', 
-                'Kategori', 
                 'Jenis', 
+                'Jenis Aplikasi',
+                'Kategori', 
                 'URL', 
                 'Dinas Pengampu', 
                 'Platform', 
                 'Bahasa', 
-                'Asal Aplikasi', 
+                'Pembuat', 
                 'Tahun Pembuatan',
                 'Database', 
                 'Framework', 
                 'Status', 
                 'Featured',
                 'Terintegrasi'
-                
             ], // Header kolom
         ];
     }
 
     public function styles(Worksheet $sheet)
     {
-        // Jumlah kolom yang digunakan (A, B, C, D, E, F, G, H, I, J, K, L, M, N)
-        $lastColumn = 'O';
+        // Jumlah kolom yang digunakan (A-O)
+        $lastColumn = 'P';
 
         // Style untuk judul
         $sheet->mergeCells("A1:{$lastColumn}1"); // Merge cell untuk judul
@@ -261,7 +267,7 @@ class AplikasiExport implements FromCollection, WithHeadings, WithStyles
         }
 
         if (!empty($this->filters['tahun_pembuatan'])) {
-            $filters[] = 'Tahun : ' . $this->getFilterLabel('tahun_pembuatan', $this->filters['tahun_pembuatan']);
+            $filters[] = 'Tahun: ' . $this->filters['tahun_pembuatan'];
         }
         
         if (!empty($this->filters['framework'])) {
@@ -269,7 +275,11 @@ class AplikasiExport implements FromCollection, WithHeadings, WithStyles
         }
         
         if (!empty($this->filters['jenis'])) {
-            $filters[] = 'Jenis: ' . $this->getFilterLabel('jenis_aplikasi', $this->filters['jenis']);
+            $filters[] = 'Jenis: ' . $this->getFilterLabel('jenis', $this->filters['jenis']);
+        }
+        
+        if (!empty($this->filters['jenis_aplikasi'])) {
+            $filters[] = 'Jenis Aplikasi: ' . $this->getFilterLabel('jenis_aplikasi', $this->filters['jenis_aplikasi']);
         }
         
         if (!empty($this->filters['kategori'])) {
@@ -287,10 +297,6 @@ class AplikasiExport implements FromCollection, WithHeadings, WithStyles
         if (!empty($this->filters['skpd'])) {
             $filters[] = 'SKPD: ' . $this->getFilterLabel('daftar_skpd', $this->filters['skpd']);
         }
-        
-        if (!empty($this->filters['tahun'])) {
-            $filters[] = 'Tahun: ' . $this->filters['tahun'];
-        }
 
         return empty($filters) ? 'Semua Data' : implode(', ', $filters);
     }
@@ -300,7 +306,20 @@ class AplikasiExport implements FromCollection, WithHeadings, WithStyles
      */
     protected function getFilterLabel(string $table, int $id): string
     {
+        $column = match($table) {
+            'jenis' => 'nama_jenis',
+            'jenis_aplikasi' => 'jenis_aplikasi',
+            'kategori_aplikasi' => 'kategori_aplikasi',
+            'platform_aplikasi' => 'platform_aplikasi',
+            'database_aplikasi' => 'database_aplikasi',
+            'framework_aplikasi' => 'framework_aplikasi',
+            'bahasa_aplikasi' => 'bahasa_aplikasi',
+            'pembuat_aplikasi' => 'pembuat_aplikasi',
+            'daftar_skpd' => 'alias_skpd',
+            default => 'nama'
+        };
+
         $result = DB::table($table)->where('id', $id)->first();
-        return $result ? $result->{str_replace('_aplikasi', '', $table)} : 'Unknown';
+        return $result ? $result->{$column} : 'Unknown';
     }
 }
